@@ -62,7 +62,7 @@ if(args.debug != 'false'){
     //setup error endpoint
     app.get('/app/error', (req, res) => {
         throw new Error('Error test successful') // Express will catch this on its own.
-        })
+    })
 }
 
 const db = new Database('log.db')                 //set up database
@@ -93,7 +93,7 @@ app.use( (req, res, next) => {
 
     const input = db.prepare('INSERT INTO accesslog (remoteadder, remoteuser, time, method, url, protocol, httpversion, status, refer, useragent) VALUES(?,?,?,?,?,?,?,?,?,?)')
     const info = input.run(logdata.remoteaddr, logdata.remoteuser, logdata.time, logdata.method, logdata.url, logdata.protocol, logdata.httpversion, logdata.status, logdata.referer, logdata.useragent)
-
+    res.status(200).json(info)
     next()
 
 })
