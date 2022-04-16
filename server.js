@@ -57,7 +57,7 @@ if(args.debug != 'false'){
     app.get('/app/access', (req, res) => {
         const querry = db.prepare('SELECT * FROM logData')
         const info = querry.run()
-        console.log(querry)
+        console.log(info)
         
     })
 
