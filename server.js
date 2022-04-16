@@ -56,9 +56,7 @@ if(args.debug != 'false'){
     //setup access endpoint
     app.get('/app/access', (req, res) => {
         const querry = db.prepare('SELECT * FROM accesslog')
-        const info = querry.run()
-        console.log(info)
-        
+        res.status(200).json(querry)        
     })
 
     //setup error endpoint
