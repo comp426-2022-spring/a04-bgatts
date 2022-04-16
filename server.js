@@ -53,6 +53,14 @@ if(args.log!='false'){
 }
 
 if(args.debug != 'false'){
+    //setup access endpoint
+    app.get('/app/access', (req, res) => {
+        const querry = db.prepare('SELECT * FROM logData')
+        const info = querry.run()
+        console.log(querry)
+        
+    })
+
     //setup error endpoint
     app.get('/app/error', (req, res) => {
         throw new Error('Error test successful') // Express will catch this on its own.
