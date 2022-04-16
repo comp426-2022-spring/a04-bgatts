@@ -7,6 +7,8 @@ import { guesser_T } from './modules/guess-flip-T.js';
 import express from "express"
 import minimist from "minimist"
 import Database from "better-sqlite3"
+import morgan from "morgan"
+import fs from 'fs'
 
 
 const app = express()
@@ -16,6 +18,8 @@ const args = minimist(process.argv.slice(2))
 args["port"]
 args["help"]
 
+
+//implement help instruction
 if (args["help"] || args['h']){
     const help = (`
     server.js [options]
@@ -40,7 +44,18 @@ if (args["help"] || args['h']){
     }
 }
 
+//write to logger file
+if(args.log){
+    const WRITESTREAM = fs.createWriteStream('access.log', { flags: 'a' })
+    // Set up the access logging middleware
+    app.use(morgan('FORMAT', { stream: WRITESTREAM }))
 
+
+    //setup error endpoint
+    app.get('/app/error', (req, res) => {
+        throw new Error('Error test successful') // Express will catch this on its own.
+      })
+}
 
 
 
@@ -50,6 +65,23 @@ const db = new Database('log.db')                 //set up database
 //db.exec(statments)
 
 //module.exports = db
+
+
+
+//write debugger endpoints if exitst
+if(args.debug){
+    //access log endpoints
+    app.get('/app/access',(req,res)=>{
+
+    })
+    app.get('/app/error',(req,res)=>{
+
+    })
+    //error log endpoint
+
+}
+
+
 
 
 
