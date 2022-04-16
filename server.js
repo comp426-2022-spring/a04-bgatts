@@ -55,7 +55,7 @@ if(args.log!='false'){
 if(args.debug != 'false'){
     //setup access endpoint
     app.get('/app/access', (req, res) => {
-        const querry = db.prepare('SELECT * FROM logData')
+        const querry = db.prepare('SELECT * FROM accesslog')
         const info = querry.run()
         console.log(info)
         
@@ -69,33 +69,17 @@ if(args.debug != 'false'){
 
 const db = new Database('log.db')                 //set up database
 //no longer need to run since already created
-//const statments = 'CREATE TABLE LogData (remoteadder, remoteuser, time, method, url, protocol, httpversion, status, refer, useragent)'
+//const statments = 'CREATE TABLE accesslog (remoteadder, remoteuser, time, method, url, protocol, httpversion, status, refer, useragent)'
 //db.exec(statments)
 
 //module.exports = db
 
 
 
-//write debugger endpoints if exitst
-if(args.debug){
-    //access log endpoints
-    app.get('/app/access',(req,res)=>{
-
-    })
-    app.get('/app/error',(req,res)=>{
-
-    })
-    //error log endpoint
-
-}
-
-
-
-
 
 
 app.use( (req, res, next) => {
-    console.log('hi there')
+   // console.log('hi there')
     let logdata = {
         remoteaddr: req.ip,
         remoteuser: req.user,
@@ -109,7 +93,7 @@ app.use( (req, res, next) => {
         useragent: req.headers['user-agent']
     }
 
-    const input = db.prepare('INSERT INTO LogData (remoteadder, remoteuser, time, method, url, protocol, httpversion, status, refer, useragent) VALUES(?,?,?,?,?,?,?,?,?,?)')
+    const input = db.prepare('INSERT INTO accesslog (remoteadder, remoteuser, time, method, url, protocol, httpversion, status, refer, useragent) VALUES(?,?,?,?,?,?,?,?,?,?)')
     const info = input.run(logdata.remoteaddr, logdata.remoteuser, logdata.time, logdata.method, logdata.url, logdata.protocol, logdata.httpversion, logdata.status, logdata.referer, logdata.useragent)
 
     next()
