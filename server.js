@@ -45,9 +45,10 @@ if (args["help"] || args['h']){
 }
 
 //write to logger file
-if(args.log){
+if(args.debug!='false'){
+    //console.log("shouldn't be here")
     const WRITESTREAM = fs.createWriteStream('access.log', { flags: 'a' })
-    // Set up the access logging middleware
+    //Set up the access logging middleware
     app.use(morgan('FORMAT', { stream: WRITESTREAM }))
 
 
