@@ -45,20 +45,19 @@ if (args["help"] || args['h']){
 }
 
 //write to logger file
-if(args.debug!='false'){
+if(args.log!='false'){
     //console.log("shouldn't be here")
     const WRITESTREAM = fs.createWriteStream('access.log', { flags: 'a' })
     //Set up the access logging middleware
     app.use(morgan('FORMAT', { stream: WRITESTREAM }))
+}
 
-
+if(args.debug != 'false'){
     //setup error endpoint
     app.get('/app/error', (req, res) => {
         throw new Error('Error test successful') // Express will catch this on its own.
-      })
+        })
 }
-
-
 
 const db = new Database('log.db')                 //set up database
 //no longer need to run since already created
